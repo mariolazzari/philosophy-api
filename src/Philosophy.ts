@@ -40,8 +40,6 @@ export class Philosophy {
       const url: string = this.getUrl(req);
       const res = await fetch(url);
       response = await res.json();
-
-      console.log('fetch', response);
     } catch (ex) {
       response.error =
         ex instanceof Error ? ex.message : 'Internal server error';
@@ -50,11 +48,13 @@ export class Philosophy {
     }
   }
 
-  public async getInfo() {
-    const res = await fetch(this.baseUrl);
-    const data = ((await res.json()) as unknown) as Root;
+  public async getRoot() {
+    const res = await this.fetchData<Root>({ url: '/' });
 
-    return data;
+    return {
+      error: res.error,
+      results: res,
+    };
   }
 
   public async getPhilosohpers(search: string = '', page: number = 1) {

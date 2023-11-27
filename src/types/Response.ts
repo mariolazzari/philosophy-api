@@ -1,4 +1,4 @@
-interface IResponse<T> {
+export interface IResponse<T> {
   count: number;
   previous: string;
   next: string;
