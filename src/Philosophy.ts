@@ -1,4 +1,4 @@
-import { Request, Response, Philosopher, Root } from '.';
+import { Request, Response, Philosopher, Root, Idea } from '.';
 import Result from './types/Result';
 
 export class Philosophy {
@@ -106,6 +106,41 @@ export class Philosophy {
       res.data = {
         count: 1,
         results: philo,
+      };
+    }
+
+    return res;
+  }
+
+  public async getIdeas(search: string = '', page: number = 1) {
+    const data = await this.fetchData<Result<Idea[]>>({
+      url: '/ideas',
+      search,
+      page,
+    });
+    const res: Response<Idea[]> = {};
+
+    if (typeof data === 'string') {
+      res.error = data;
+    } else {
+      res.data = data;
+    }
+
+    return res;
+  }
+
+  public async getIdea(id: number) {
+    const data = await this.fetchData<Idea>({
+      url: `/ideas/${id}`,
+    });
+    const res: Response<Idea> = {};
+
+    if (typeof data === 'string') {
+      res.error = data;
+    } else {
+      res.data = {
+        count: 1,
+        results: data,
       };
     }
 

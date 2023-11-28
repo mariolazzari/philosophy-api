@@ -1,9 +1,7 @@
-interface IRequest {
+export type Request = {
   url: string;
-  search: string;
-  page: number;
-}
-
-export type Request = Partial<IRequest>;
+  search?: string;
+  page?: number;
+};
 
 export default Request;

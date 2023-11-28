@@ -3,3 +3,5 @@ export type Idea = {
   author: string;
   quote: string;
 };
+
+export default Idea;
