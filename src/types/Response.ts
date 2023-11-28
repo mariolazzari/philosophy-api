@@ -1,11 +1,8 @@
-export interface IResponse<T> {
-  count: number;
-  previous: string;
-  next: string;
-  results: T;
-  error: string;
-}
+import Result from './Result';
 
-export type Response<T> = Partial<IResponse<T>>;
+export type Response<T> = Partial<{
+  data: Result<T>;
+  error: string;
+}>;
 
 export default Response;

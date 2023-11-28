@@ -1,4 +1,5 @@
 import { Request, Response, Philosopher, Root } from '.';
+import Result from './types/Result';
 
 export class Philosophy {
   private baseUrl = 'https://philosophyapi.pythonanywhere.com/api';
@@ -34,43 +35,80 @@ export class Philosophy {
 
   // generic fetch
   private async fetchData<T>(req: Request) {
-    let response: Response<T> = {};
-
     try {
       const url: string = this.getUrl(req);
+
       const res = await fetch(url);
-      response = await res.json();
+      if (!res.ok) {
+        return res.statusText;
+      }
+      const data: T = await res.json();
+
+      return data;
     } catch (ex) {
-      response.error =
-        ex instanceof Error ? ex.message : 'Internal server error';
-    } finally {
-      return response;
+      if (ex instanceof Error) {
+        return ex.message;
+      }
+      return 'Internal server error';
     }
   }
 
   public async getRoot() {
-    const res = await this.fetchData<Root>({ url: '/' });
+    const data = await this.fetchData<Root>({ url: '/' });
+    const res: Response<Root> = {};
 
-    return {
-      error: res.error,
-      results: res,
-    };
+    if (typeof data === 'string') {
+      res.error = data;
+    } else {
+      res.data = {
+        count: 1,
+        results: data,
+      };
+    }
+
+    return res;
   }
 
   public async getPhilosohpers(search: string = '', page: number = 1) {
-    const res = await this.fetchData<Philosopher[]>({
+    const data = await this.fetchData<Result<Philosopher[]>>({
       url: '/philosophers',
       search,
       page,
     });
+    const res: Response<Philosopher[]> = {};
 
-    const philosophers = res.results
-      ? res.results.map(this.mapPhilosopher)
-      : [];
+    if (typeof data === 'string') {
+      res.error = data;
+    } else {
+      const philos: Philosopher[] = data.results
+        ? data.results.map(this.mapPhilosopher)
+        : [];
 
-    return {
-      ...res,
-      results: philosophers,
-    };
+      res.data = {
+        ...data,
+        results: philos,
+      };
+    }
+
+    return res;
+  }
+
+  public async getPhilosopher(id: number) {
+    const data = await this.fetchData<Philosopher>({
+      url: `/philosophers/${id}`,
+    });
+    const res: Response<Philosopher> = {};
+
+    if (typeof data === 'string') {
+      res.error = data;
+    } else {
+      const philo = this.mapPhilosopher(data);
+      res.data = {
+        count: 1,
+        results: philo,
+      };
+    }
+
+    return res;
   }
 }
