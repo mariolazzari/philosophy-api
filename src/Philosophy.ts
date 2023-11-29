@@ -1,5 +1,4 @@
-import { Request, Response, Philosopher, Root, Idea } from '.';
-import Result from './types/Result';
+import { Result, Request, Response, Philosopher, Root, Idea, Book } from '.';
 
 export class Philosophy {
   private baseUrl = 'https://philosophyapi.pythonanywhere.com/api';
@@ -46,9 +45,9 @@ export class Philosophy {
     }
   }
 
-  public async getRoot() {
-    const data = await this.fetchData<Root>({ url: '/' });
-    const res: Response<Root> = {};
+  // handle single entity response
+  private getEntityResponse<T>(data: T | string) {
+    const res: Response<T> = {};
 
     if (typeof data === 'string') {
       res.error = data;
@@ -62,56 +61,9 @@ export class Philosophy {
     return res;
   }
 
-  public async getPhilosohpers(search: string = '', page: number = 1) {
-    const data = await this.fetchData<Result<Philosopher[]>>({
-      url: '/philosophers',
-      search,
-      page,
-    });
-    const res: Response<Philosopher[]> = {};
-
-    if (typeof data === 'string') {
-      res.error = data;
-    } else {
-      const philos: Philosopher[] = data.results
-        ? data.results.map(this.mapPhilosopher)
-        : [];
-
-      res.data = {
-        ...data,
-        results: philos,
-      };
-    }
-
-    return res;
-  }
-
-  public async getPhilosopher(id: number) {
-    const data = await this.fetchData<Philosopher>({
-      url: `/philosophers/${id}`,
-    });
-    const res: Response<Philosopher> = {};
-
-    if (typeof data === 'string') {
-      res.error = data;
-    } else {
-      const philo = this.mapPhilosopher(data);
-      res.data = {
-        count: 1,
-        results: philo,
-      };
-    }
-
-    return res;
-  }
-
-  public async getIdeas(search: string = '', page: number = 1) {
-    const data = await this.fetchData<Result<Idea[]>>({
-      url: '/ideas',
-      search,
-      page,
-    });
-    const res: Response<Idea[]> = {};
+  // handle full  response
+  private getResponse<T>(data: string | Result<T>) {
+    const res: Response<T> = {};
 
     if (typeof data === 'string') {
       res.error = data;
@@ -122,23 +74,79 @@ export class Philosophy {
     return res;
   }
 
-  public async getIdea(id: number) {
-    const data = await this.fetchData<Idea>({
-      url: `/ideas/${id}`,
+  public async getRoot() {
+    const data = await this.fetchData<Root>({ url: '/' });
+    const res = this.getEntityResponse<Root>(data);
+
+    return res;
+  }
+
+  // philosopher
+  public async getPhilosohpers(search: string = '', page: number = 1) {
+    const data = await this.fetchData<Result<Philosopher[]>>({
+      url: '/philosophers',
+      search,
+      page,
     });
-    const res: Response<Idea> = {};
+    const res = this.getResponse<Philosopher[]>(data);
 
-    console.log(data);
+    // refact philosophers collection with dates
+    if (res.data && res.data.results) {
+      const philos: Philosopher[] = res.data.results
+        ? res.data.results.map(this.mapPhilosopher)
+        : [];
 
-    if (typeof data === 'string') {
-      res.error = data;
-    } else {
-      res.data = {
-        count: 1,
-        results: data,
-      };
+      res.data.results = philos;
     }
 
     return res;
   }
+
+  public async getPhilosopher(id: number) {
+    const data = await this.fetchData<Philosopher>({
+      url: `/philosophers/${id}`,
+    });
+
+    return this.getEntityResponse<Philosopher>(data);
+  }
+
+  // ideas
+  public async getIdeas(search: string = '', page: number = 1) {
+    const data = await this.fetchData<Result<Idea[]>>({
+      url: '/ideas',
+      search,
+      page,
+    });
+
+    return this.getResponse<Idea[]>(data);
+  }
+
+  public async getIdea(id: number) {
+    const data = await this.fetchData<Idea>({
+      url: `/ideas/${id}`,
+    });
+
+    return this.getEntityResponse<Idea>(data);
+  }
+
+  // books
+  public async getBooks(search: string = '', page: number = 1) {
+    const data = await this.fetchData<Result<Book[]>>({
+      url: '/books',
+      search,
+      page,
+    });
+
+    return this.getResponse<Book[]>(data);
+  }
+
+  public async getBook(id: number) {
+    const data = await this.fetchData<Book>({
+      url: `/books/${id}`,
+    });
+
+    return this.getEntityResponse<Book>(data);
+  }
+
+  // schools
 }
