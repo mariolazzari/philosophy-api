@@ -8,18 +8,12 @@ export class Philosophy {
   private getUrl = ({ url, search, page }: Request): string => {
     let endPoint = `${this.baseUrl}${url}`;
 
-    switch (true) {
-      case !!search && !!page:
-        endPoint += `?search=${search}&page=${page}`;
-        break;
-
-      case !!search && page === undefined:
-        endPoint += `?search=${search}`;
-        break;
-
-      case search === undefined && !!page:
-        endPoint += `?page=${page}`;
-        break;
+    if (search && page) {
+      endPoint += `?search=${search}&page=${page}`;
+    } else if (search && !page) {
+      endPoint += `?search=${search}`;
+    } else if (!search && page) {
+      endPoint += `?page=${page}`;
     }
 
     return endPoint;
@@ -37,7 +31,6 @@ export class Philosophy {
   private async fetchData<T>(req: Request) {
     try {
       const url: string = this.getUrl(req);
-
       const res = await fetch(url);
       if (!res.ok) {
         return res.statusText;
@@ -134,6 +127,8 @@ export class Philosophy {
       url: `/ideas/${id}`,
     });
     const res: Response<Idea> = {};
+
+    console.log(data);
 
     if (typeof data === 'string') {
       res.error = data;
