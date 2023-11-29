@@ -1,4 +1,13 @@
-import { Result, Request, Response, Philosopher, Root, Idea, Book } from '.';
+import {
+  Result,
+  Request,
+  Response,
+  Philosopher,
+  Root,
+  Idea,
+  Book,
+  School,
+} from '.';
 
 export class Philosophy {
   private baseUrl = 'https://philosophyapi.pythonanywhere.com/api';
@@ -149,4 +158,21 @@ export class Philosophy {
   }
 
   // schools
+  public async getSchools(search: string = '', page: number = 1) {
+    const data = await this.fetchData<Result<School[]>>({
+      url: '/schools',
+      search,
+      page,
+    });
+
+    return this.getResponse<School[]>(data);
+  }
+
+  public async getSchool(id: number) {
+    const data = await this.fetchData<School>({
+      url: `/schools/${id}`,
+    });
+
+    return this.getEntityResponse<School>(data);
+  }
 }

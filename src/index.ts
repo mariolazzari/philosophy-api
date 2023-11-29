@@ -6,3 +6,4 @@ export * from './types/Response';
 export * from './types/Result';
 export * from './types/Root';
 export * from './types/Philosopher';
+export * from './types/School';

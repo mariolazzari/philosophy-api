@@ -1,0 +1,7 @@
+export type School = {
+  id: number;
+  name: string;
+  philosophers: string[];
+};
+
+export default School;
