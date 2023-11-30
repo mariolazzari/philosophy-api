@@ -35,6 +35,12 @@ export class Philosophy {
     schools: p.school,
   });
 
+  // Book entity refactor
+  private mapBook = (b: Book): Book => ({
+    ...b,
+    date: new Date(b.published),
+  });
+
   // generic fetch
   private async fetchData<T>(req: Request) {
     try {
@@ -146,7 +152,12 @@ export class Philosophy {
       page,
     });
 
-    return this.getResponse<Book[]>(data);
+    const res = this.getResponse<Book[]>(data);
+    if (res.data) {
+      res.data.results = res.data.results?.map(this.mapBook);
+    }
+
+    return res;
   }
 
   public async getBook(id: number) {

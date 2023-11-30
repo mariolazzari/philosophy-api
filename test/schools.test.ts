@@ -44,4 +44,17 @@ describe('Schools', () => {
       expect(data.results?.id).toBe(id);
     }
   });
+
+  it('should return not found error', async () => {
+    const id = -1;
+    const { data, error } = await phylo.getSchool(id);
+
+    expect(data).toBeDefined();
+    expect(error).toBeUndefined();
+
+    if (data) {
+      expect(data.count).toBe(1);
+      expect(data.results?.id).toBe(id);
+    }
+  });
 });
