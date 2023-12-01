@@ -1,7 +1,7 @@
-export type Request = {
+export type Request = Partial<{
   url: string;
-  search?: string;
-  page?: number;
-};
+  search: string;
+  page: number;
+}>;
 
 export default Request;

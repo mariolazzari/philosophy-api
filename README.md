@@ -71,3 +71,62 @@ const client = new Philosophy()
 ```
 
 No parameters are required by this contrsuctor.
+
+### Methods
+
+Philosophy client includes the following *public* methods:
+
+
+#### getBooks
+
+*Description*
+
+This asynchronous **method** handles `GET /api/books` REST API.
+
+*Prototype*
+
+```ts
+async getBooks(search: string, page: number): Promise<Result<Book[]>>
+```
+
+*Sample code*
+
+```ts
+const params: Request = {search: "title"}
+const books: Response<Books[]> = await client.getBooks(params)
+```
+
+#### getBooks
+
+*Description*
+
+This asynchronous **method** handles `GET /api/books/:id` REST API.
+
+*Prototype*
+
+```ts
+async getBooks(id: number): Promise<Result<Book>>
+```
+
+*Sample code*
+
+```ts
+const id:number = 123;
+const book: Response<Book> = await client.getBooks(id)
+```
+
+
+#### getIdeas
+
+#### getIdea
+
+#### getPhilosophers
+
+#### getPhilosopher
+
+#### getRoot
+
+#### getSchools
+
+#### getSchool
+

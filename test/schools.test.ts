@@ -45,16 +45,15 @@ describe('Schools', () => {
     }
   });
 
-  it('should return not found error', async () => {
+  it('should return Not Found error', async () => {
     const id = -1;
     const { data, error } = await phylo.getSchool(id);
 
-    expect(data).toBeDefined();
-    expect(error).toBeUndefined();
+    expect(data).toBeUndefined();
+    expect(error).toBeDefined();
 
-    if (data) {
-      expect(data.count).toBe(1);
-      expect(data.results?.id).toBe(id);
+    if (error) {
+      expect(error).toBe('Not Found');
     }
   });
 });

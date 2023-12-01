@@ -89,6 +89,7 @@ export class Philosophy {
     return res;
   }
 
+  // root
   public async getRoot() {
     const data = await this.fetchData<Root>({ url: '/' });
     const res = this.getEntityResponse<Root>(data);
@@ -96,7 +97,7 @@ export class Philosophy {
     return res;
   }
 
-  // philosopher
+  // philosophers
   public async getPhilosohpers(search: string = '', page: number = 1) {
     const data = await this.fetchData<Result<Philosopher[]>>({
       url: '/philosophers',
