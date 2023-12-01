@@ -3,6 +3,35 @@
 
 This TypeScript based package implements a REST API client to the wonderfull [Philosophy API](https://philosophyapi.pythonanywhere.com/) **free** project.
 
+
+- [Philosophy API client](#philosophy-api-client)
+  - [Installation](#installation)
+  - [Usage](#usage)
+  - [Philosophy class](#philosophy-class)
+    - [Constructor](#constructor)
+    - [Methods](#methods)
+      - [getBooks](#getbooks)
+      - [getBook](#getbook)
+      - [getIdeas](#getideas)
+      - [getIdea](#getidea)
+      - [getPhilosophers](#getphilosophers)
+      - [getPhilosopher](#getphilosopher)
+      - [getRoot](#getroot)
+      - [getSchools](#getschools)
+      - [getSchool](#getschool)
+  - [Types](#types)
+    - [Book](#book)
+    - [Idea](#idea)
+    - [Philosopher](#philosopher)
+    - [Request](#request)
+    - [Response](#response)
+    - [Result](#result)
+    - [Root](#root)
+    - [School](#school)
+  - [Authors](#authors)
+  - [Links](#links)
+
+
 **Prerequisites**
 
 This package requires [NodeJS](https://nodejs.org) (version 18 or later) and a node package manager (Npm, Yarn, Pnpm or Bun). 
