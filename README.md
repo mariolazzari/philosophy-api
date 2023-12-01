@@ -251,3 +251,119 @@ const id:number = 123;
 const school: Response<School> = await client.getSchool(id)
 ```
 
+---
+
+## Types
+
+In order to implement all features, the following common *types* have been implemended:
+
+
+### Book
+
+```ts
+type Book = {
+  id: number;
+  title: string;
+  cover: string;
+  abstract: string;
+  country: string;
+  language: string;
+  published: string;
+  date: Date;
+  author: string;
+};
+```
+
+### Idea
+
+```ts
+type Idea = {
+  id: number;
+  author: string;
+  quote: string;
+};
+```
+
+### Philosopher
+
+```ts
+type Philosopher = {
+  id: number;
+  name: string;
+  photo: string;
+  born_date: string;
+  born: Date;
+  death_date: string;
+  dead: Date;
+  nationality: string;
+  era: string;
+  school: string[];
+  schools: string[];
+  ideas: string[];
+  books: string[];
+};
+```
+
+### Request
+
+```ts
+type Request = Partial<{
+  url: string;
+  search: string;
+  page: number;
+}>;
+```
+
+### Response
+
+```ts
+type Response<T> = Partial<{
+  data: Result<T>;
+  error: string;
+}>;
+```
+
+### Result
+
+```ts
+type Result<T> = {
+  count: number;
+  previous: string;
+  next: string;
+  results: T;
+};
+```
+
+### Root
+
+```ts
+type Root = {
+  philosophers: string;
+  ideas: string;
+  books: string;
+  schools: string;
+};
+```
+
+### School
+
+```ts
+type School = {
+  id: number;
+  name: string;
+  philosophers: string[];
+};
+```
+
+---
+
+## Authors
+
+* **Mario Lazzari** - *Initial work*
+
+## Links
+
+* Demo [app](https://www.mariolazzari.it/hobbies/phy/phyApi)
+* My personal [site](https://mariolazzari.it)
+* My [github](https://github.com/mariolazzari) profile
+* Philosophy API [documentation](https://philosophyapi.pythonanywhere.com)
