@@ -1,8 +1,6 @@
-import Result from './Result';
+import { Result } from './Result';
 
 export type Response<T> = Partial<{
   data: Result<T>;
   error: string;
 }>;
-
-export default Response;

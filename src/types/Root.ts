@@ -4,5 +4,3 @@ export type Root = {
   books: string;
   schools: string;
 };
-
-export default Root;

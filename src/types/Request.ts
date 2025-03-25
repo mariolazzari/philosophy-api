@@ -3,5 +3,3 @@ export type Request = Partial<{
   search: string;
   page: number;
 }>;
-
-export default Request;

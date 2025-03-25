@@ -3,5 +3,3 @@ export type School = {
   name: string;
   philosophers: string[];
 };
-
-export default School;

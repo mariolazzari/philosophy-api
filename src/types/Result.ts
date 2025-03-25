@@ -4,5 +4,3 @@ export type Result<T> = Partial<{
   next: string;
   results: T;
 }>;
-
-export default Result;

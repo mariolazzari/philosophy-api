@@ -13,5 +13,3 @@ export type Philosopher = {
   ideas: string[];
   books: string[];
 };
-
-export default Philosopher;

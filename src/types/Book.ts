@@ -9,5 +9,3 @@ export type Book = {
   date: Date;
   author: string;
 };
-
-export default Book;
